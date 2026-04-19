@@ -1,6 +1,6 @@
 
 <p align="center">
-  Femboy---ff69b4?style=for-the-badge">
+  Femboy--ff69b4?style=for-the-badge">
   <img src="https://img.shields.io/github/stars/Mariofed/femboy-code?style=for-the-badge&color=gold">
   <img src="https://img.shields.io/github/license/Mariofed/Femboy-code?style=for-the-badge&color=blue">
 </p>
