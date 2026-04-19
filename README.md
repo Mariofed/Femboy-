@@ -1,10 +1,7 @@
-
 <p align="center">
-  Femboy--codeff69b4?style=for-the-badge">
-  <img src="https://img.shields.io/github/stars/Mariofed/femboy-code?style=for-the-badge&color=gold">
-  <img src="https://img.shields.io/github/license/Mariofed/Femboy-code?style=for-the-badge&color=blue">
-</p>
-
+  <img src="https://img.shields.io/badge/Language-UwU--Studio--code-ff69b4?style=for-the-badge">
+  <img src="https://img.shields.io/github/stars/Mariofed/UwU-Studio-code?style=for-the-badge&color=gold">
+  <img 
 # 🌸 Femboy-code
 
 Un linguaggio a base C++ ma molto piu carino adatto a chi quale un qualcosa dj professionale ma meno serio
