@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femboy++ Official</title>
+    <style>
+        :root {
+            /* Definizione dei Colori Premium */
+            --pink-gradient: linear-gradient(135deg, #ffb7c5 0%, #ff8fab 100%);
+            --bg: #fff0f3;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --terminal-bg: #282a36; /* Tema scuro professionale */
+            --text-main: #4a4a4a;
+        }
+
+        /* Configurazione Base del Corpo */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            /* Sfondo a puntini leggero per profondità */
+            background-image: radial-gradient(#ffb7c5 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            
+            /* CORREZIONE: Rimuoviamo il margine predefinito così l'header tocca il bordo superiore */
+            margin: 0; 
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* --- L'HEADER: Il Riquadro di Sopra --- */
+        header {
+            background: var(--pink-gradient);
+            width: 100%;
+            text-align: center;
+            padding: 25px 0; /* Altezza interna */
+            
+            /* Arrotondiamo solo gli angoli inferiori */
+            border-radius: 0 0 25px 25px;
+            
+            /* Ombra morbida per l'effetto Premium */
+            box-shadow: 0 8px 15px rgba(255, 143, 171, 0.3);
+            
+            /* Assicuriamoci che stia in alto */
+            position: relative;
+            top: 0;
+            margin-bottom: 25px; /* Spazio sotto l'header */
+        }
+
+        header h1 { 
+            margin: 0; 
+            color: white; 
+            font-size: 2.2rem;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Contenitore Principale */
+        .container {
+            width: 95%;
+            max-width: 550px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 30px; /* Spazio in fondo */
+        }
+
+        /* Effetto Vetro per l'Editor */
+        .editor-wrapper {
+            background: var(--card-bg);
+            backdrop-filter: blur(5px); /* Leggera sfocatura */
+            border: 2px solid white;
+            border-radius: 18px;
+            padding: 8px;
+            box-shadow: 0 5px 20px rgba(255, 183, 197, 0.15);
+        }
+
+        textarea {
+            width: 100%;
+            height: 320px;
+            background: transparent;
+            border: none;
+            padding: 10px;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            outline: none;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        /* Il Pulsante "Slay" */
+        .run-btn {
+            background: var(--pink-gradient);
+            color: white;
+            border: gray;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(255, 143, 171, 0.3);
+        }
+
+        .run-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 143, 171, 0.5);
+        }
+
+        .run-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Console Cute ma Hacker */
+        #console {
+            width: 100%;
+            background-color: var(--terminal-bg);
+            color: #bd93f9; /* Viola lavanda brillante */
+            padding: 18px;
+            border-radius: 18px;
+            min-height: 120px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            box-sizing: border-box;
+            border: 3px solid #44475a;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        /* Etichetta sopra la console */
+        #console::before {
+            content: "OUTPUT_LOG";
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #44475a;
+            padding: 1px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>✨ Femboy++✨ v1.0</h1>
+</header>
+
+<div class="container">
+    <div class="editor-wrapper">
+<textarea id="codeEditor" spellcheck="false">
+</textarea>
+    </div>
+
+    <button class="run-btn" onclick="executeFemboy()">ESEGUI PROGRAMMA 🎀</button>
+
+    <div id="console">> Console pronta...</div>
+</div>
+
+<script>
+    // L'interprete stabile che abbiamo testato
+    function executeFemboy() {
+        var consoleDiv = document.getElementById('console');
+        var editor = document.getElementById('codeEditor');
+        var code = editor.value;
+        var output = "";
+
+        try {
+            consoleDiv.innerHTML = "Processing...";
+            
+            var memoria = {};
+            var righe = code.split('\n');
+
+            for (var i = 0; i < righe.length; i++) {
+                var riga = righe[i].trim();
+
+                if (!riga || riga.includes("it_boy") || riga.includes("using") || riga.includes("give") || riga === "}") {
+                    continue;
+                }
+
+                if (riga.includes("soft")) {
+                    var pulita = riga.replace("smol ", "").replace("thread ", "").replace(";", "");
+                    var parti = pulita.split("soft");
+                    var nomeVar = parti[0].trim();
+                    var valoreVar = parti[1].trim();
+                    memoria[nomeVar] = valoreVar.replace(/"/g, "");
+                    continue;
+                }
+
+                if (riga.startsWith("uwu")) {
+                    var contenuto = riga.replace("uwu", "").replace(";", "").trim();
+                    if (memoria[contenuto] !== undefined) {
+                        output += ">> " + memoria[contenuto] + "\n";
+                    } else {
+                        output += ">> " + contenuto.replace(/"/g, "") + "\n";
+                    }
+                }
+            }
+
+            consoleDiv.innerHTML = output || "✨ Programma terminato.";
+        } catch (e) {
+            consoleDiv.innerHTML = "❌ Errore:\n" + e.message;
+        }
+    }
+</script>
+
+</body>
+</html>
