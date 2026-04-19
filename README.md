@@ -5,15 +5,25 @@
   <img src="https://img.shields.io/github/license/Mariofed/UwU-Studio-code?style=for-the-badge&color=blue">
 </p>
 
-# 🌸 UwU-Studio-code
+# 🌸 Femboy-code
 
-Un linguaggio di programmazione semplice, amichevole e adatto a chiunque voglia imparare divertendosi.
+Un linguaggio a base C++ ma molto piu carino adatto a chi quale un qualcosa dj professionale ma meno serio
 
 ## 🚀 Come iniziare
-Per usare UwU-Studio-code, scrivi il tuo primo file `.uwu` e lancialo con:
+Per usare il Femboy-code, scrivi il tuo primo file `.uwu` e lancialo con:
 `[METTI QUI IL COMANDO PER ESEGUIRE IL CODICE]`
 
 ## 💻 Esempio di codice
 ```text
-// Scrivi qui un esempio reale del tuo linguaggio!
-stampa("UwU world!")
+it_boy main() {
+    slay "Sto caricando i dati... ✨";
+    
+    // Usiamolo come pausa di riflessione
+    blink; hello world; 
+
+    slay "Dati caricati! Slay.";
+    
+    give 0;
+}
+
+
