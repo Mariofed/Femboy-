@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Femboy++ v1.5</title>
+    <style>
+        :root {
+            --pink-gradient: linear-gradient(135deg, #ffb7c5 0%, #ff8fab 100%);
+            --violet-bg: #4b0082;
+            --editor-bg: #ffffff;
+            --terminal-bg: #1e1e1e;
+            --accent: #ff8fab;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--violet-bg);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--pink-gradient);
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        header h1 { margin: 0; color: white; letter-spacing: 2px; font-size: 1.8rem; }
+
+        .container { width: 95%; max-width: 600px; padding: 20px 0; display: flex; flex-direction: column; gap: 15px; position: relative; }
+
+        /* Manuale */
+        #manuale {
+            display: none;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            border: 2px solid var(--accent);
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .btn-utility {
+            background: var(--pink-gradient);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Editor e Suggerimenti */
+        .editor-wrapper {
+            background: var(--editor-bg);
+            border: 4px solid var(--accent);
+            border-radius: 15px;
+            position: relative;
+            overflow: visible;
+        }
+
+        textarea {
+            width: 100%;
+            height: 280px;
+            border: none;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            outline: none;
+            resize: none;
+            box-sizing: border-box;
+            color: #000000;
+        }
+
+        /* Box Suggerimenti */
+        #autocomplete-list {
+            position: absolute;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .suggestion-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .suggestion-item:hover {
+            background-color: #fff0f3;
+            color: var(--accent);
+        }
+
+        .run-btn {
+            background: var(--pink-gradient);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Console */
+        #console {
+            background-color: var(--terminal-bg);
+            color: #ffb7c5;
+            padding: 20px;
+            border-radius: 15px;
+            min-height: 160px;
+            font-family: 'Consolas', monospace;
+            border: 3px solid #333;
+        }
+
+        .input-line { display: flex; gap: 10px; margin-top: 10px; color: #fff; }
+        #terminalInput { background: transparent; border: none; border-bottom: 2px solid var(--accent); color: white; outline: none; flex-grow: 1; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        td, th { border-bottom: 1px solid #eee; padding: 6px; text-align: left; }
+    </style>
+</head>
+<body>
+
+<header><h1>✨ Femboy++ v1.5✨</h1></header>
+
+<div class="container">
+    <button class="btn-utility" onclick="toggleManuale()">📖 DIZIONARIO COMANDI</button>
+    
+    <div id="manuale">
+      <table>
+            <tr><th>Tipo</th><th>Comandi</th></tr>
+            <tr><td>Basics</td><td>it_boy, main, give, using, aesthetics, package</td></tr>
+            <tr><td>Dati</td><td>smol, thread, yas, nay, soft, const, void</td></tr>
+            <tr><td>I/O</td><td>slay, hear, shout, pop, clear, blink</td></tr>
+            <tr><td>Logica</td><td>maybe, otherwise, is, isnt, and, or, not</td></tr>
+            <tr><td>Math</td><td>plus, minus, times, divide, mod, calc</td></tr>
+            <tr><td>Loop</td><td>vibe, next, stop, step, each, path, case, default</td></tr>
+        </table>
+    </div>
+
+    <div class="editor-wrapper">
+        <textarea id="codeEditor" spellcheck="false" oninput="showSuggestions(this)" onkeydown="handleKey(event)"></textarea>
+        <div id="autocomplete-list"></div>
+    </div>
+
+    <button class="run-btn" onclick="startProgram()">ESEGUI PROGRAMMA 🎀</button>
+
+    <div id="console">
+        <div id="log"></div>
+        <div id="inputArea" style="display:none" class="input-line">
+            <span>[INPUT]> </span><input type="text" id="terminalInput" autofocus>
+        </div>
+    </div>
+</div>
+
+<script>
+    const paroleChiave = [
+        "it_boy", "main", "give", "using", "aesthetics", "package",
+        "smol", "thread", "yas", "nay", "soft", "const", "void",
+        "slay", "hear", "shout", "pop", "clear", "blink",
+        "maybe", "otherwise", "is", "isnt", "and", "or", "not",
+        "plus", "minus", "times", "divide", "mod", "calc",
+        "vibe", "next", "stop", "step", "each", "path", "case", "default"
+    ];
+
+    let memoria = {};
+    let istruzioni = [];
+    let indiceCorrente = 0;
+
+    function toggleManuale() {
+        const m = document.getElementById('manuale');
+        m.style.display = m.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // --- LOGICA SUGGERIMENTI ---
+    function showSuggestions(el) {
+        const list = document.getElementById('autocomplete-list');
+        const text = el.value;
+        const cursor = el.selectionStart;
+        const lastWord = text.substring(0, cursor).split(/[\s\n(]+/).pop();
+
+        if (lastWord.length < 2) {
+            list.style.display = 'none';
+            return;
+        }
+
+        const matches = paroleChiave.filter(p => p.startsWith(lastWord));
+        if (matches.length > 0) {
+            list.innerHTML = '';
+            matches.forEach(m => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.innerText = m;
+                div.onclick = () => insertWord(m, lastWord);
+                list.appendChild(div);
+            });
+            
+            // Posizionamento basico sotto il cursore
+            list.style.display = 'block';
+            list.style.left = '15px';
+            list.style.top = '40px'; 
+        } else {
+            list.style.display = 'none';
+        }
+    }
+
+    function insertWord(word, lastWord) {
+        const el = document.getElementById('codeEditor');
+        const text = el.value;
+        const cursor = el.selectionStart;
+        const before = text.substring(0, cursor - lastWord.length);
+        const after = text.substring(cursor);
+        
+        el.value = before + word + after;
+        el.focus();
+        document.getElementById('autocomplete-list').style.display = 'none';
+    }
+
+    function handleKey(e) {
+        if (e.key === 'Escape') document.getElementById('autocomplete-list').style.display = 'none';
+    }
+
+    // --- MOTORE DI ESECUZIONE ---
+    function startProgram() {
+        const editor = document.getElementById('codeEditor');
+        const log = document.getElementById('log');
+        let fullCode = "using aesthetics;\npackage official;\n" + editor.value;
+
+        log.innerHTML = "<span style='color: #888'>[SYSTEM] Librerie caricate...</span><br><br>";
+        memoria = {};
+        indiceCorrente = 0;
+        istruzioni = fullCode.split('\n').map(r => r.trim()).filter(r => r && !r.startsWith("//") && !r.includes("it_boy") && !r.includes("main") && r !== "}" && !r.includes("give") && !r.includes("using") && !r.includes("package"));
+        eseguiProssimaIstruzione();
+    }
+
+    function eseguiProssimaIstruzione() {
+        const log = document.getElementById('log');
+        const inputArea = document.getElementById('inputArea');
+        while (indiceCorrente < istruzioni.length) {
+            let r = istruzioni[indiceCorrente];
+            indiceCorrente++;
+            if (r.startsWith("hear")) {
+                let varName = r.replace("hear", "").replace(";", "").trim();
+                inputArea.style.display = "flex";
+                const inputField = document.getElementById('terminalInput');
+                inputField.value = ""; inputField.focus();
+                inputField.onkeydown = function(e) {
+                    if (e.key === 'Enter') {
+                        memoria[varName] = inputField.value;
+                        log.innerHTML += "<span style='color:#fff'>> " + inputField.value + "</span><br>";
+                        inputArea.style.display = "none";
+                        eseguiProssimaIstruzione();
+                    }
+                };
+                return; 
+            }
+            if (r.startsWith("slay")) {
+                let content = r.replace("slay", "").replace(";", "").trim();
+                let finale = memoria[content] !== undefined ? memoria[content] : content.replace(/"/g, "");
+                log.innerHTML += ">> " + finale + "<br>";
+            }
+            if (r.includes("soft")) {
+                let parti = r.replace("smol ", "").replace("thread ", "").replace(";", "").split("soft");
+                let nome = parti[0].trim();
+                let esp = parti[1].trim().replace(/plus/g, "+").replace(/minus/g, "-").replace(/times/g, "*").replace(/divide/g, "/");
+                for (let v in memoria) { esp = esp.replace(new RegExp("\\b" + v + "\\b", "g"), memoria[v]); }
+                try { memoria[nome] = eval(esp); } catch { memoria[nome] = esp.replace(/"/g, ""); }
+            }
+        }
+        log.innerHTML += "<br><span style='color:var(--accent)'>✨ Esecuzione Terminata.</span>";
+    }
+</script>
+
+</body>
+</html>
